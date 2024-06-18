@@ -22,10 +22,6 @@ if(APPLE AND NOT XCODE)
 	set(CMAKE_CXX_FLAGS "-ObjC++")
 endif()
 
-if(MSVC AND (MSVC_VERSION GREATER_EQUAL 1914))
-	add_compile_options("/Zc:__cplusplus")
-endif()
-
 include(CMakeDependentOption)
 
 option(BX_AMALGAMATED "Amalgamated bx build for faster compilation" OFF)
@@ -38,6 +34,10 @@ cmake_dependent_option(BGFX_BUILD_TOOLS_GEOMETRY "Build bgfx geometry tools." ON
 cmake_dependent_option(BGFX_BUILD_TOOLS_TEXTURE "Build bgfx texture tools." ON BGFX_BUILD_TOOLS OFF)
 set(BGFX_TOOLS_PREFIX "" CACHE STRING "Prefix name to add to name of tools (to avoid clashes)")
 option(BGFX_BUILD_EXAMPLES "Build bgfx examples." ON)
+cmake_dependent_option(
+	BGFX_BUILD_EXAMPLE_COMMON "Build bgfx example-common project." OFF "NOT BGFX_BUILD_EXAMPLES;NOT BGFX_BUILD_TOOLS"
+	ON
+)
 option(BGFX_BUILD_TESTS "Build bgfx tests." OFF)
 option(BGFX_INSTALL "Create installation target." ON)
 cmake_dependent_option(
